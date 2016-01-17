@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016/1/17 ?????? 11:45:56 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.patentdata.model.Books" table="books" optimistic-lock="version">
+        <id name="isbn" type="string">
+            <column name="isbn" length="13" />
+            <generator class="assigned" />
+        </id>
+        <property name="title" type="string">
+            <column name="title" />
+        </property>
+        <property name="subTitle" type="string">
+            <column name="sub_title" />
+        </property>
+        <property name="publisher" type="string">
+            <column name="publisher" />
+        </property>
+        <property name="publishYear" type="java.lang.Integer">
+            <column name="publish_year" />
+        </property>
+        <property name="pages" type="java.lang.Integer">
+            <column name="pages" />
+        </property>
+        <property name="fileFormat" type="string">
+            <column name="file_format" />
+        </property>
+    </class>
+</hibernate-mapping>

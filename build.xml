@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<project default="hibernatetool" basedir=".">
+
+	<property name="resource.dir" value="." />
+	<property name="lib.dir" value="${resource.dir}/lib" />
+	<property name="src.dir" value="${resource.dir}/src/main" />
+	<property name="hbm.template.dir" value="${resource.dir}/pojo" />
+
+	<path id="toolslib">
+		<!-- jdbc driver -->
+		<path location="${lib.dir}/postgresql-9.4-1206-jdbc41.jar" />
+		<path location="${lib.dir}/hibernate-tools-4.3.1.Final.jar" />
+		<path location="${lib.dir}/hibernate-core-4.3.10.Final.jar" />
+		<path location="${lib.dir}/slf4j-api-1.5.8.jar" />
+		<path location="${lib.dir}/freemarker-2.3.8.jar" />
+		<path location="${lib.dir}/commons-collections-3.2.1.jar" />
+		<path location="${lib.dir}/antlr-2.7.7.jar" />
+		<path location="${lib.dir}/slf4j-log4j12-1.5.8.jar" />
+		<path location="${lib.dir}/log4j-1.2.17.jar" />
+		<path location="${lib.dir}/hibernate-commons-annotations-4.0.5.Final.jar" />
+		<path location="${lib.dir}/dom4j-1.6.1.jar" />
+		<path location="${lib.dir}/jboss-logging-3.3.0.Final.jar" />
+		<path location="${lib.dir}/jta-1.1.jar" />
+		<path location="${lib.dir}/hibernate-jpa-2.1-api-1.0.0.Final.jar" />
+		<path location="${lib.dir}/commons-logging-1.1.jar" />
+		<path location="${lib.dir}/jtidy-r8-20060801.jar" />
+	</path>
+
+	<target name="hibernatetool">
+
+		<taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask" classpathref="toolslib" />
+
+		<delete dir="${src.dir}/java/com/patentdata/model" />
+		<delete file="${src.dir}/resources/hibernate.cfg.xml" />
+
+		<!-- destdir屬性可以在各輸出屬性中分別指定，這裡是全局指定  -->
+		<hibernatetool destdir="${resource.dir}">
+
+			<!-- packagename表生成文件的存放包名 -->
+			<jdbcconfiguration propertyfile="${resource.dir}/hibernate/hibernate.properties" packagename="com.patentdata.model" />
+
+			<!-- 由DB導出hbm.xml文件 => 因目前是使用annotation, 故先comment.
+            <hbmtemplate destdir="${src.dir}/java" templatepath="hibernate/template/hbm/" template="hibernate-mapping.hbm.ftl" filepattern="{package-name}/{class-name}.hbl.xml">
+            </hbmtemplate>
+            -->
+			<hbm2hbmxml destdir="${src.dir}/java" />
+
+			<!-- 生成配置文件 -->
+			<hbm2cfgxml ejb3="true" destdir="${src.dir}/resources" />
+
+		</hibernatetool>
+	</target>
+
+	<target name="hbm2java">
+
+		<taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask" classpathref="toolslib" />
+
+		<!-- destdir屬性可以在各輸出屬性中分別指定，這裡是全局指定  -->
+		<hibernatetool destdir="${resource.dir}">
+
+			<configuration>
+				<fileset dir="${src.dir}/java">
+					<include name="**/*.hbm.xml" />
+				</fileset>
+			</configuration>
+
+			<hbmtemplate destdir="${src.dir}/java" templatepath="hibernate/template/pojo/" template="Pojo.ftl" filepattern="{package-name}/{class-name}.java">
+				<property key="jdk5" value="true" />
+				<property key="ejb3" value="true" />
+			</hbmtemplate>
+			<!-- 由hbm.xml文件生成POJO文件 
+                 => jdk5="true" ejb3="true" destdir="${src.dir}/java" 如使用hbmtemplate, 則hbm2java不需再有設定.  
+            -->
+			<hbm2java />
+
+		</hibernatetool>
+	</target>
+
+	<target name="hbm2dao">
+
+		<taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask" classpathref="toolslib" />
+
+		<delete dir="${src.dir}/java/com/patentdata/dao" />
+
+		<!-- destdir屬性可以在各輸出屬性中分別指定，這裡是全局指定  -->
+		<hibernatetool destdir="${resource.dir}">
+
+			<!-- packagename表生成文件的存放包名 -->
+			<jdbcconfiguration propertyfile="${resource.dir}/hibernate/hibernate.properties" packagename="com.patentdata.dao" />
+
+			<hbmtemplate destdir="${src.dir}/java" templatepath="hibernate/template/dao/" template="daohome.ftl" filepattern="{package-name}/{class-name}.java">
+				<property key="jdk5" value="true" />
+				<property key="ejb3" value="false" />
+			</hbmtemplate>
+			<hbm2dao destdir="${src.dir}/java" />
+
+		</hibernatetool>
+
+	</target>
+
+</project>

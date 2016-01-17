@@ -1,0 +1,46 @@
+configurations.all {
+    exclude group: "commons-logging", module: "commons-logging"
+    // exclude group: "org.jboss.logging", module: "jboss-logging"
+    // exclude group: "org.jboss.logging", module: "jboss-logging-annotations"
+}
+
+apply plugin: 'groovy'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    
+    compile 'org.postgresql:postgresql:9.4-1202-jdbc41'
+    
+    // compile 'org.slf4j:slf4j-api:1.7.12'
+    compile 'ch.qos.logback:logback-core:1.1.3'
+    compile 'ch.qos.logback:logback-classic:1.1.3'
+
+    compile 'org.hibernate:hibernate-core:4.3.11.Final'
+    compile 'org.hibernate:hibernate-validator:4.3.2.Final'
+    compile 'org.hibernate:hibernate-tools:4.3.1.Final'
+    compile 'org.jboss.logging:jboss-logging:3.3.0.Final'
+    
+    compile 'com.zaxxer:HikariCP:2.4.3'
+    
+    compile 'org.codehaus.groovy:groovy-all:2.4.5'
+    
+    // compile 'org.mongodb:mongo-java-driver:2.13.0'
+    compile ('com.gmongo:gmongo:1.5') {
+        exclude group: 'org.codehaus.groovy'
+    }
+    
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+    testCompile 'junit:junit:4.12'
+    
+}
+
+ant.importBuild 'build.xml'
+
