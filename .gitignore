@@ -3,3 +3,6 @@
 .project
 .settings/
 bin/
+gradlew
+gradlew.bat
+gradle/
