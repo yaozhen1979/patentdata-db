@@ -4,13 +4,36 @@
 "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
+        
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        
+        <property name="hibernate.connection.provider_class">com.zaxxer.hikari.hibernate.HikariConnectionProvider</property>
+        <property name="hibernate.hikari.dataSourceClassName">org.postgresql.ds.PGSimpleDataSource</property>
+        <property name="hibernate.hikari.dataSource.url">jdbc:postgresql://10.60.90.47:5432/patentdata</property>
+        <property name="hibernate.hikari.dataSource.user">patentdata</property>
+        <property name="hibernate.hikari.dataSource.password">patentdata</property>
+        <property name="hibernate.hikari.maximumPoolSize">5</property>
+        
+        <!-- cachePrepStmts : How to use ??? -->
+        <property name="hibernate.dataSource.cachePrepStmts">true</property>
+        <!-- prepStmtCacheSize : How to use ??? -->
+        <property name="hibernate.dataSource.prepStmtCacheSize">250</property>
+        <!-- prepStmtCacheSqlLimit : How to use ??? -->
+        <property name="hibernate.dataSource.prepStmtCacheSqlLimit">2048</property>
+        
+        <!-- origin setting
         <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
         <property name="hibernate.connection.password">patentdata</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://192.168.242.147:5432/patentdata</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://10.60.90.47:5432/patentdata</property>
         <property name="hibernate.connection.username">patentdata</property>
         <property name="hibernate.default_schema">public</property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        -->
+        
         <mapping class="com.patentdata.model.Books" />
+        
     </session-factory>
 </hibernate-configuration>

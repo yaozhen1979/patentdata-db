@@ -1,7 +1,7 @@
 <#-- // Property accessors -->
 <#foreach property in pojo.getAllPropertiesIterator()>
 <#if pojo.getMetaAttribAsBool(property, "gen-property", true)>
- <#if pojo.hasFieldJavaDoc(property)>    
+<#if pojo.hasFieldJavaDoc(property)>    
     /**       
      * ${pojo.getFieldJavaDoc(property, 4)}
      */

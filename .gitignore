@@ -6,3 +6,5 @@ bin/
 gradlew
 gradlew.bat
 gradle/
+src/main/groovy/Library.groovy
+src/test/groovy/LibraryTest.groovy

@@ -2,34 +2,34 @@ import static org.junit.Assert.*;
 
 import org.hibernate.Session
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.patentdata.HibernateUtil;
+import com.patentdata.util.HibernateUtil;
 import com.patentdata.model.Books
 
 
 public class HibernateTester {
 
-    SessionFactory sessionFactory
+    Session session
 
     @Before
     public void setUp() throws Exception {
-        sessionFactory = HibernateUtil.getSessionFactory()
+        session = HibernateUtil.currentSession();
     }
 
     @After
     public void tearDown() throws Exception {
-        HibernateUtil.shutdown()
+        session = HibernateUtil.closeSession();
     }
 
     @Test
     public void testHibernateQuery() {
 
-        Session session = sessionFactory.openSession();
         session.beginTransaction();
-        List result = session.createQuery( "from Books" ).list();
+        List result = session.createQuery( "from Books b where b.title = 'Programming Robots with ROS'" ).list();
         for ( Books book : (List<Books>) result ) {
             println "Book = ${book.title}"
         }
