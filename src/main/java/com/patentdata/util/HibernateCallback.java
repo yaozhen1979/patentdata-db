@@ -4,6 +4,6 @@ import org.hibernate.HibernateException;
 
 public interface HibernateCallback {
     
-    Object execute() throws HibernateException;
+    public void execute() throws HibernateException;
     
 }

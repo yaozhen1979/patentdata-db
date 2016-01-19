@@ -15,8 +15,6 @@ import org.hibernate.service.ServiceRegistry;
  */
 public class HibernateUtil {
     
-    
-    
     public static final SessionFactory sessionFactory;
     
     public static final ThreadLocal<Session> session = new ThreadLocal<Session>();

@@ -6,7 +6,7 @@ import org.hibernate.Transaction;
 
 public class HibernateTemplate {
     
-    public Object run(HibernateCallback callback) {
+    public void run(HibernateCallback callback) {
         
         Session session = null;
         Transaction tx = null;
@@ -14,10 +14,10 @@ public class HibernateTemplate {
         try {
             session = HibernateUtil.currentSession();
             tx = session.beginTransaction();
-            Object result = callback.execute();
+            // Object result = callback.execute();
+            callback.execute();
             tx.commit();
             session.flush();
-            return result;
         } catch (HibernateException e) {
             try {
                 tx.rollback();

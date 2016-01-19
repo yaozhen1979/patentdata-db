@@ -8,7 +8,8 @@
 import spock.lang.Specification
 
 class LibraryTest extends Specification{
-    def "someLibraryMethod returns true"() {
+    
+    def "someLibraryMethod one"() {
         setup:
         Library lib = new Library()
         when:
@@ -16,4 +17,68 @@ class LibraryTest extends Specification{
         then:
         result == true
     }
+    
+    def "someLibraryMethod two"() {
+        setup:
+        Library lib = new Library()
+        when:
+        def result = lib.someLibraryMethod()
+        then:
+        result == true
+    }
+    
+    def "someLibraryMethod three"() {
+        setup:
+        Library lib = new Library()
+        when:
+        def result = lib.someLibraryMethod()
+        then:
+        result == true
+    }
+    
+    def "someLibraryMethod four"() {
+        setup:
+        Library lib = new Library()
+        when:
+        def result = lib.someLibraryMethod()
+        then:
+        result == true
+    }
+    
+    def "someLibraryMethod five"() {
+        setup:
+        Library lib = new Library()
+        when:
+        def result = lib.someLibraryMethod()
+        then:
+        result == true
+    }
+    
+    def "someLibraryMethod six"() {
+        setup:
+        Library lib = new Library()
+        when:
+        def result = lib.someLibraryMethod()
+        then:
+        result == false
+    }
+    
+    def "someLibraryMethod seven"() {
+        setup:
+        Library lib = new Library()
+        when:
+        def result = lib.someLibraryMethod()
+        then:
+        result == false
+    }
+    
+    def "someLibraryMethod eight"() {
+        setup:
+        Library lib = new Library()
+        when:
+        def result = lib.someLibraryMethod()
+        then:
+        result == true
+    }
+    
 }

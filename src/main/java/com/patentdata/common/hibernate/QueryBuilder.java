@@ -12,6 +12,8 @@ import java.util.regex.Pattern;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.patentdata.util.HibernateUtil;
+
 /**
  * 
  * @author tonykuo
@@ -49,10 +51,11 @@ public class QueryBuilder {
     private boolean pageQuery;
 
     private List result;
-
-    protected boolean isNativeSQL() {
-        return false;
-    }
+    
+    // default value = false
+    private boolean isNativeSQL = false;
+    
+    private boolean hasOr;
     
     public QueryBuilder(CharSequence sql) {
         this(sql, new Object[0]);
@@ -68,7 +71,11 @@ public class QueryBuilder {
 
     public QueryBuilder(Session theSession, CharSequence sql, Object... params) {
         
-        session = theSession;
+        if (theSession == null) {
+            session = HibernateUtil.currentSession();
+        } else {
+            session = theSession;
+        }
         
         Matcher matcher = selectPattern.matcher(sql);
         
@@ -114,7 +121,6 @@ public class QueryBuilder {
 
         addParams(params);
     }
-    
     
     @SuppressWarnings("unchecked")
     public void addParams(Object... params) {
@@ -207,26 +213,6 @@ public class QueryBuilder {
         return sql.toString();
     }
 
-    public int getCount() {
-        return count;
-    }
-
-    public int getPage() {
-        return page;
-    }
-
-    public int getPageCount() {
-        return pageCount;
-    }
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public List getList() {
-        return result;
-    }
-
     @SuppressWarnings("unchecked")
     public QueryBuilder setParameter(String name, Object value) {
         parameterMap.put(name, value);
@@ -234,6 +220,7 @@ public class QueryBuilder {
     }
 
     private List list() {
+        
         Query query = createQuery(getSQL());
 
         Iterator i = whereCondition.iterator();
@@ -264,7 +251,7 @@ public class QueryBuilder {
     
     private Query createQuery(String sql) {
         if (isNativeSQL()) {
-           return session.createSQLQuery(sql); 
+            return session.createSQLQuery(sql);
         } else {
             return session.createQuery(sql);
         }
@@ -404,8 +391,6 @@ public class QueryBuilder {
         return this;
     }
 
-    private boolean hasOr;
-
     public QueryBuilder or(String propertyName, String condition, Object value) {
         return this.or(propertyName + " " + condition + " ?", value);
     }
@@ -431,4 +416,33 @@ public class QueryBuilder {
         addParams(value);
         return this;
     }
+    
+    public int getCount() {
+        return count;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public int getPageCount() {
+        return pageCount;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public List getList() {
+        return result;
+    }
+
+    public boolean isNativeSQL() {
+        return isNativeSQL;
+    }
+
+    public void setNativeSQL(boolean isNativeSQL) {
+        this.isNativeSQL = isNativeSQL;
+    }
+    
 }
