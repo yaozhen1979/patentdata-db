@@ -24,6 +24,12 @@ public class HibernateUtil {
         try {
             Configuration configuration = new Configuration();
             configuration.configure();
+            
+            // setting properties programmatically
+            // configuration.setProperty("hibernate.show_sql", "true");
+            configuration.setProperty("hibernate.format_sql", "true");
+            configuration.setProperty("hibernate.hbm2ddl.auto", "none");
+            
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                     .applySettings(configuration.getProperties()).build();
             sessionFactory = configuration.buildSessionFactory(serviceRegistry);
